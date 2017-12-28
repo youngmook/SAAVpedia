@@ -19,19 +19,35 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 ################################################################################
 
+import urllib
+import uuid
+from datetime import datetime
+
 class SAAVpediaInput(object) :
     def __init__(self):
-        self.__itsQueryOfSAAVpeptideSequence = None
-        self.__itsQueryOfENSP                = None
-        self.__itsQueryOfENST                = None
-        self.__itsQueryOfENSG                = None
-        self.__itsQueryOfUnitprot            = None
-        self.__itsQueryOfNextprot            = None
-        self.__itsQueryOfGenomicPosition     = None
-        self.__itsQueryOfdbSNP               = None
-        self.__itsQueryOfCosmic              = None
+        self.__itsInputDataDict = dict()
 
+        self.__itsKeyOfSAAVpeptideSequence = 'SAAVpeptideSequence'
+        self.__itsKeyOfENSP                = 'ensp'
+        self.__itsKeyOfENST                = 'enst'
+        self.__itsKeyOfENSG                = 'ensg'
+        self.__itsKeyOfUnitprot            = 'unitprot'
+        self.__itsKeyOfNextprot            = 'nextprot'
+        self.__itsKeyOfGenomicPosition     = 'genomicPosition'
+        self.__itsKeyOfdbSNP               = 'dbSNP'
+        self.__itsKeyOfCosmic              = 'cosmic'
+        self.__itsKeyOfDatasetName         = 'datasetName'
+
+        self.__itsInputDataDict[self.__itsKeyOfDatasetName] = \
+            datetime.now().strftime("%Y%m%d-%Hh%Mm%S.%f")[:-3] + 's-' \
+            + str(uuid.uuid4())[:8]
         pass
+
+    def __getDataDict(self):
+        return self.__itsInputDataDict
+
+    def __setDataDict(self, theKey, theValue):
+        self.__itsInputDataDict[theKey] = str(theValue)
 
 
     ################################################################################
@@ -39,11 +55,13 @@ class SAAVpediaInput(object) :
     ################################################################################
     @property
     def ENSP(self):
-        return self.__itsQueryOfENSP
+        theKey = self.__itsKeyOfENSP
+        return self.__getValueFromData(theKey)
 
     @ENSP.setter
     def ENSP(self, theENSP):
-        self.__itsQueryOfENSP = str(theENSP)
+        theKey = self.__itsKeyOfENSP
+        self.__setDataDict(theKey, theENSP)
         pass
 
     @property
@@ -60,11 +78,13 @@ class SAAVpediaInput(object) :
     ################################################################################
     @property
     def ENST(self):
-        return self.__itsQueryOfENST
+        theKey = self.__itsKeyOfENST
+        return self.__getValueFromData(theKey)
 
     @ENST.setter
     def ENST(self, theENST):
-        self.__itsQueryOfENST = str(theENST)
+        theKey = self.__itsKeyOfENST
+        self.__setDataDict(theKey, theENST)
         pass
 
     @property
@@ -79,13 +99,16 @@ class SAAVpediaInput(object) :
     ################################################################################
     # ENSG input
     ################################################################################
+
     @property
     def ENSG(self):
-        return self.__itsQueryOfENSG
+        theKey = self.__itsKeyOfENSG
+        return self.__getValueFromData(theKey)
 
     @ENSG.setter
     def ENSG(self, theENSG):
-        self.__itsQueryOfENSG = str(theENSG)
+        theKey = self.__itsKeyOfENSG
+        self.__setDataDict(theKey, theENSG)
         pass
 
     @property
@@ -100,114 +123,149 @@ class SAAVpediaInput(object) :
     ################################################################################
     # Uniprot input
     ################################################################################
+
     @property
     def unitprot(self):
-        return self.__itsQueryOfUnitprot
+        theKey = self.__itsKeyOfUnitprot
+        return self.__getValueFromData(theKey)
 
     @unitprot.setter
-    def unitprot(self, theUnitprotID):
-        self.__itsQueryOfUnitprot = str(theUnitprotID)
+    def unitprot(self, theUnitprot):
+        theKey = self.__itsKeyOfUnitprot
+        self.__setDataDict(theKey, theUnitprot)
         pass
+
 
     ################################################################################
     # Nextprot input
     ################################################################################
     @property
     def nextprot(self):
-        return self.__itsQueryOfNextprot
+        theKey = self.__itsKeyOfNextprot
+        return self.__getValueFromData(theKey)
 
     @nextprot.setter
-    def nextprot(self, theNextprotID):
-        self.__itsQueryOfNextprot = str(theNextprotID)
+    def nextprot(self, theNextprot):
+        theKey = self.__itsKeyOfNextprot
+        self.__setDataDict(theKey, theNextprot)
         pass
 
     ################################################################################
     # SAAV peptide sequence input
     ################################################################################
+
     @property
     def saavPeptideSequence(self):
-        return self.__itsQueryOfSAAVpeptideSequence
+        theKey = self.__itsKeyOfSAAVpeptideSequence
+        return self.__getValueFromData(theKey)
 
     @saavPeptideSequence.setter
-    def saavPeptideSequence(self, theNextprotID):
-        self.__itsQueryOfSAAVpeptideSequence = str(theNextprotID)
+    def saavPeptideSequence(self, theSAAVpeptideSequence):
+        theKey = self.__itsKeyOfSAAVpeptideSequence
+        self.__setDataDict(theKey, theSAAVpeptideSequence)
         pass
 
     ################################################################################
     # dbSNP input
     ################################################################################
+
     @property
     def dbSNP(self):
-        return self.__itsQueryOfdbSNP
+        theKey = self.__itsKeyOfdbSNP
+        return self.__getValueFromData(theKey)
 
     @dbSNP.setter
     def dbSNP(self, theDbSNP):
-        self.__itsQueryOfdbSNP = str(theDbSNP)
+        theKey = self.__itsKeyOfdbSNP
+        self.__setDataDict(theKey, theDbSNP)
         pass
+
 
     ################################################################################
     # Cosmic input
     ################################################################################
+
     @property
     def cosmic(self):
-        return self.__itsQueryOfCosmic
+        theKey = self.__itsKeyOfCosmic
+        return self.__getValueFromData(theKey)
 
     @cosmic.setter
-    def cosmic(self, theCosmicID):
-        self.__itsQueryOfCosmic = str(theCosmicID)
+    def cosmic(self, theCosmic):
+        theKey = self.__itsKeyOfCosmic
+        self.__setDataDict(theKey, theCosmic)
+        pass
+
+    ################################################################################
+    # Genomic position input
+    ################################################################################
+
+    @property
+    def genomicPosition(self):
+        theKey = self.__itsKeyOfGenomicPosition
+        return self.__getValueFromData(theKey)
+
+    @genomicPosition.setter
+    def genomicPosition(self, thePosition):
+        theKey = self.__itsKeyOfGenomicPosition
+        self.__setDataDict(theKey, thePosition)
         pass
 
 
     ################################################################################
     # Genomic position input
     ################################################################################
+
     @property
-    def genomicPosition(self):
-        return self.__itsQueryOfGenomicPosition
+    def datasetName(self):
+        theKey = self.__itsKeyOfDatasetName
+        return self.__getValueFromData(theKey)
 
-    @genomicPosition.setter
-    def genomicPosition(self, thePosition):
-        self.__itsQueryOfGenomicPosition = str(thePosition)
+    @datasetName.setter
+    def datasetName(self, theName):
+        theKey = self.__itsKeyOfDatasetName
+        self.__setDataDict(theKey, theName)
         pass
 
-    def __isNone(self, theObject):
-        if(type(None) == type(theObject)):
-            return True
-        return False
 
-    def __isNotNone(self, theObject):
-        if (type(None) != type(theObject)):
-            return True
-        return False
+    ################################################################################
+    # Internal functions
+    ################################################################################
 
-
-    def __arrayToQueryRequest(self, theValueList):
-        pass
+    def __getValueFromData(self, theKey):
+        try:
+            if self.__getDataDict().has_key(theKey):
+                return self.__getDataDict()[theKey]
+            pass
+        except Exception:
+            print Exception
+        return None
 
     def toString(self):
-        theString = ''
-        if self.__isNotNone(self.saavPeptideSequence) :
-            theString = theString + 'saav_pep_seq='
+        return str(self.__itsInputDataDict)
 
-
-        '''
-                self.__itsQueryOfSAAVpeptideSequence = None
-        self.__itsQueryOfENSP                = None
-        self.__itsQueryOfENST                = None
-        self.__itsQueryOfENSG                = None
-        self.__itsQueryOfUnitprot            = None
-        self.__itsQueryOfNextprot            = None
-        self.__itsQueryOfGenomicPosition     = None
-        self.__itsQueryOfdbSNP               = None
-        self.__itsQueryOfCosmic              = None
-        :return: 
-        '''
+    def toQueryString(self):
+        return urllib.urlencode(self.__itsInputDataDict)
 
     def __str__(self):
         return self.toString()
 
 
 if __name__ == '__main__':
+
+    i = SAAVpediaInput()
+    i.saavPeptideSequence = 'LEAK'
+    i.nextprot = 'NextprotID'
+    i.unitprot = 'UnitprotID'
+    i.dbSNP = 'dbSNP'
+    i.genomicPosition = 10000
+    i.ensg = 'ensg'
+    i.enst = 'enst'
+    i.ensg = 'ensg'
+    i.cosmic = 'cosmic'
+
+    print i
+    print i.toQueryString()
     pass
 
 

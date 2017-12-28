@@ -19,20 +19,4 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 ################################################################################
 
-import unittest
-from saavpedia import SAAVpedia
-
-class SAAVpediaTest(unittest.TestCase):
-
-    def setUp(self):
-        self.saavpedia = SAAVpedia()
-        pass
-
-    def tearDown(self):
-        pass
-
-    def test_url(self):
-        self.assertEqual(type(str()), type(self.saavpedia.url))
-
-if __name__ == '__main__':
-    unittest.main()
+from ClassSAAVpediaInputParser import SAAVpediaInputParser

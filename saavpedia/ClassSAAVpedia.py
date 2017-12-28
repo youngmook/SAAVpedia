@@ -19,15 +19,11 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 ################################################################################
 
-import requests
-import uuid, time
-from datetime import datetime
 from ClassSAAVpediaInput import SAAVpediaInput
 
 class SAAVpedia(object) :
     def __init__(self):
         self.__itsUrl = 'https://www.saavpedia.org/assets/lib/scripts/annotation.php'
-        self.__itsDatasetName = datetime.now().strftime("%Y%m%d-%Hh%Mm%S.%f")[:-3] + 's-' + str(uuid.uuid4())[:8]
         self.__itsQueryInput = SAAVpediaInput()
         pass
 
@@ -38,17 +34,6 @@ class SAAVpedia(object) :
     @url.setter
     def url(self, theValue):
         print "[{0}] Read only error, You can't change the URL!".format(theValue)
-        pass
-
-    @property
-    def datasetName(self):
-        return self.__itsDatasetName
-
-    @datasetName.setter
-    def datasetName(self, theName):
-        if(type(str()) == type(theName)):
-            self.__itsDatasetName = theName
-            pass
         pass
 
     @property
@@ -69,12 +54,16 @@ if __name__ == '__main__':
 
     s = SAAVpedia()
 
-    s.input.genomicPosition = '100'
+    s.input.genomicPosition = '10000'
     s.input.unitprot = 'NX-1010'
+    s.input.nextprot = 'NX-1010'
 
     print s.input.genomicPosition
     print s.input.unitprot
     print s.input.nextprot
+    print s.input.datasetName
+
+    print type(s.input)
 
 
 
