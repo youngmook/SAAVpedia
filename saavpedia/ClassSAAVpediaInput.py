@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 ################################################################################
-# "SAAVpedia Annotation Javascript Library"
+# "SAAVpedia Library"
 # Copyright (C) 2017 Young-Mook Kang <ymkang@thylove.org>
 #
 # This library is free software; you can redistribute it and/or
@@ -259,7 +259,7 @@ if __name__ == '__main__':
     i.nextprot = 'NextprotID'
     i.unitprot = 'UnitprotID'
     i.dbSNP = 'dbSNP'
-    i.genomicPosition = 10000
+    i.genomicPosition = "1:10000"
     i.ensg = 'ensg'
     i.enst = 'enst'
     i.ensg = 'ensg'

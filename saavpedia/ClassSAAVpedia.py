@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 ################################################################################
-# "SAAVpedia Annotation Javascript Library"
+# "SAAVpedia Library"
 # Copyright (C) 2017 Young-Mook Kang <ymkang@thylove.org>
 #
 # This library is free software; you can redistribute it and/or
@@ -63,7 +63,7 @@ if __name__ == '__main__':
     print s.input.nextprot
     print s.input.datasetName
 
-    print type(s.input)
+    print s.input
 
 
 

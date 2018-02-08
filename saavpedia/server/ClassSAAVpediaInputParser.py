@@ -30,22 +30,12 @@ class SAAVpediaInputParser(object):
         self.__itsColOfENST           = 'col10'
         self.__itsColOfENSG           = 'col9'
         self.__itsColOfSAAVpeptideSeq = 'col14'
-        self.__itsColOfUnitprot       = 'col8'
+        self.__itsColOfUniprot        = 'col8'
         self.__itsColOfNextprot       = 'col7'
 
         self.__itsUniprotMatcher = re.compile( \
             '[OPQ][0-9][A-Z0-9]{3}[0-9]|[A-NR-Z][0-9]([A-Z][A-Z0-9]{2}[0-9]){1,2}')
         pass
-
-    def set(self, theStringInput):
-        the2dStringData = []
-        theSplitedLineList = theStringInput.replace('\r','').strip().split('\n')
-        for ithLine in theSplitedLineList:
-            the2dStringData.append(ithLine.split())
-            pass
-        self.__its2dStringData = the2dStringData
-        pass
-
 
     def __aListToSqlString(self, theStringList):
         theList = []
@@ -77,7 +67,7 @@ class SAAVpediaInputParser(object):
     def __isDigitIncludingPrefix(self, theString, thePrefix):
         if (len(theString) < len(thePrefix)) :
             return False
-        if not (thePrefix == str(theString[:len(thePrefix)]).upper()):
+        if not (thePrefix.upper() == str(theString[:len(thePrefix)]).upper()):
             return False
         if (str(theString[len(thePrefix):]).isdigit()):
             return True
@@ -111,21 +101,21 @@ class SAAVpediaInputParser(object):
 
     def __stringToQuery(self, theString):
         if self.__isCosmicID(theString):
-            return '({0} LIKE \"{1}\")'.format(self.__itsColOfCosmicID, theString)
+            return '({0} LIKE \"{1}\")'.format(self.__itsColOfCosmicID, theString.upper())
         elif self.__isRsID(theString):
-            return '({0} LIKE \"{1}\")'.format(self.__itsColOfRsID, theString)
+            return '({0} LIKE \"{1}\")'.format(self.__itsColOfRsID, theString.lower())
         elif self.__isENSG(theString):
-            return '({0} LIKE \"{1}\")'.format(self.__itsColOfENSG, theString)
+            return '({0} LIKE \"{1}\")'.format(self.__itsColOfENSG, theString.upper())
         elif self.__isENST(theString):
-            return '({0} LIKE \"{1}\")'.format(self.__itsColOfENST, theString)
+            return '({0} LIKE \"{1}\")'.format(self.__itsColOfENST, theString.upper())
         elif self.__isENSP(theString):
-            return '({0} LIKE \"{1}\")'.format(self.__itsColOfENSP, theString)
+            return '({0} LIKE \"{1}\")'.format(self.__itsColOfENSP, theString.upper())
         elif self.__isUniprot(theString):
-            return '({0} LIKE \"{1}\")'.format(self.__itsColOfUnitprot, theString)
+            return '({0} LIKE \"{1}\")'.format(self.__itsColOfUniprot, theString.upper())
         elif self.__isNextprot(theString):
-            return '({0} LIKE \"{1}\")'.format(self.__itsColOfNextprot, theString)
+            return '({0} LIKE \"{1}\")'.format(self.__itsColOfNextprot, theString.upper())
         elif str(theString).isalpha():
-            return '({0} LIKE \"{1}\")'.format(self.__itsColOfSAAVpeptideSeq, theString)
+            return '({0} LIKE \"{1}\")'.format(self.__itsColOfSAAVpeptideSeq, theString.upper())
 
     def __addQueryToQueryDict(self, theQueryDict, theString):
         theKey = None
@@ -140,7 +130,7 @@ class SAAVpediaInputParser(object):
         elif self.__isENSP(theString):
             theKey = 'ensp'
         elif self.__isUniprot(theString):
-            theKey = 'unitprot'
+            theKey = 'uniprot'
         elif self.__isNextprot(theString):
             theKey = 'nextprot'
         elif str(theString).isalpha():
@@ -168,16 +158,86 @@ class SAAVpediaInputParser(object):
 
     def toString(self):
         return str(self.toQueryList())
+
+    def setupToSAAVIdentifier(self):
+        theQueryDictList = self.__2dListToQueryDictList(self.__its2dStringData)
+        theString = ""
+        for ithDict in theQueryDictList:
+            if ithDict.has_key('seq'):
+                theString += ithDict['seq'] + '\n'
+                pass
+            pass
+        self.set(theString)
+        pass
+
+    def setupToSNVRetrieval(self):
+        theQueryDictList = self.__2dListToQueryDictList(self.__its2dStringData)
+        theString = ""
+        for ithDict in theQueryDictList:
+            if ithDict.has_key('cosmic'):
+                theString += str(ithDict['cosmic']).upper() + '\t'
+                pass
+            if ithDict.has_key('rs'):
+                theString += str(ithDict['rs']).lower() + '\t'
+                pass
+            theString += '\n'
+            pass
+        self.set(theString)
+        pass
+
+    def setupToBiomoleculeRetrieval(self):
+        theQueryDictList = self.__2dListToQueryDictList(self.__its2dStringData)
+        theString = ""
+        for ithDict in theQueryDictList:
+            if ithDict.has_key('ensg'):
+                theString += str(ithDict['ensg']).upper() + '\t'
+                pass
+            if ithDict.has_key('enst'):
+                theString += str(ithDict['enst']).upper() + '\t'
+                pass
+            if ithDict.has_key('ensp'):
+                theString += str(ithDict['ensp']).upper() + '\t'
+                pass
+            if ithDict.has_key('uniprot'):
+                theString += str(ithDict['uniprot']).upper() + '\t'
+                pass
+            if ithDict.has_key('nextprot'):
+                theString += str(ithDict['nextprot']).upper() + '\t'
+                pass
+            theString += '\n'
+            pass
+        self.set(theString)
+        pass
+
+    def set(self, theStringInput):
+        the2dStringData = []
+        theSplitedLineList = theStringInput.replace('\r','').strip().split('\n')
+        for ithLine in theSplitedLineList:
+            the2dStringData.append(ithLine.split())
+            pass
+        self.__its2dStringData = the2dStringData
+        pass
     pass
 
 
 
 if __name__ == '__main__':
-
+    theInput = "NDVDCAYLR\nWLEAK\tQ7Z5L2\tNX_Q7Z5L2-3\nPLEAK\t\tQ7Z5L2\tNX_Q7Z5L2-3 ENSG00000166024\nNX_Q7Z5L2-3 ENSG00000166024\nRS1049550\nCOSM4418633"
     parser = SAAVpediaInputParser()
-    parser.set("WLEAK\tQ7Z5L2\tNX_Q7Z5L2-3\nPLEAK\t\tQ7Z5L2\tNX_Q7Z5L2-3 ENSG00000166024\n")
+    parser.set(theInput)
     print parser.toSqlCondition()
-    print parser
+
+    parser.setupToSAAVIdentifier()
+    print parser.toSqlCondition()
+
+    parser.set(theInput)
+    parser.setupToSNVRetrieval()
+    print parser.toSqlCondition()
+
+    parser.set(theInput)
+    parser.setupToBiomoleculeRetrieval()
+    print parser.toSqlCondition()
 
     pass
+
 

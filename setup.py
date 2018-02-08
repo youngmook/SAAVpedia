@@ -14,12 +14,12 @@ setup(name='saavpedia',
 
       description='SAAVpedia 0.1',
 
-      packages=find_packages(exclude=['tests']),
+      packages=find_packages(exclude=['tests', 'resources']),
 
       long_description=open('README.md').read(),
 
       zip_safe=False,
 
-      setup_requires=['nose>=1.0', 'datetime>=4.0'],
+      setup_requires=['nose>=1.0', 'datetime>=4.0', 'MySQL-python>=1.2'],
 
       test_suite='nose.collector')
